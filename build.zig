@@ -503,7 +503,7 @@ fn addSharedLibStep(b: *std.Build, writeFiles: *Step.WriteFile, ndk_path: CStr, 
         .x86_64 => "x86_64-linux-android",
     };
     // create a conf file to tell the compiler where to find libC
-    const libC_osPath = if(builtin.os.tag == .windows) "windows-x86_64" else "linux-x86_64";
+    const libC_osPath = if(builtin.os.tag == .windows) "windows-x86_64" else if(builtin.os.tag == .darwin) "darwin-x86_64" else "linux-x86_64";
     const libC_rootPath = try std.fmt.allocPrint(b.allocator, "{s}/toolchains/llvm/prebuilt/{s}/sysroot/usr", .{ndk_path, libC_osPath});
     const libC_includePath = try std.fmt.allocPrint(b.allocator, "{s}/include", .{libC_rootPath});
     const libC_includeSysPath = try std.fmt.allocPrint(b.allocator, "{s}/{s}", .{ libC_includePath, llvmPathName });
